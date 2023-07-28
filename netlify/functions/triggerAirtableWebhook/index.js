@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 exports.handler = async (event) => {
   try {
@@ -15,26 +15,26 @@ exports.handler = async (event) => {
       recordID: recordID,
     };
 
-    const airtableWebhookURL = 'AT_WEBHOOK_URL_FLASH';
+    const airtableWebhookURL = process.env.AT_WEBHOOK_URL_FLASH;
 
     const response = await axios.post(airtableWebhookURL, data);
 
     if (response.status === 200) {
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: 'Webhook triggered successfully.' }),
+        body: JSON.stringify({ message: "Webhook triggered successfully." }),
       };
     } else {
       return {
         statusCode: response.status,
-        body: JSON.stringify({ message: 'Failed to trigger webhook.' }),
+        body: JSON.stringify({ message: "Failed to trigger webhook." }),
       };
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error("Error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal server error.' }),
+      body: JSON.stringify({ message: "Internal server error." }),
     };
   }
 };
