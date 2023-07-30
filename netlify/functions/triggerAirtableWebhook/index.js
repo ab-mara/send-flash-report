@@ -22,11 +22,21 @@ exports.handler = async (event) => {
     if (response.status === 200) {
       return {
         statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*", // Replace * with your Softr app's domain if possible
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // Add the allowed HTTP methods used by your Softr app
+        },
         body: JSON.stringify({ message: "Webhook triggered successfully." }),
       };
     } else {
       return {
         statusCode: response.status,
+        headers: {
+          "Access-Control-Allow-Origin": "*", // Replace * with your Softr app's domain if possible
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // Add the allowed HTTP methods used by your Softr app
+        },
         body: JSON.stringify({ message: "Failed to trigger webhook." }),
       };
     }
@@ -34,6 +44,11 @@ exports.handler = async (event) => {
     console.error("Error:", error);
     return {
       statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*", // Replace * with your Softr app's domain if possible
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // Add the allowed HTTP methods used by your Softr app
+      },
       body: JSON.stringify({ message: "Internal server error." }),
     };
   }
