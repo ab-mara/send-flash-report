@@ -1,3 +1,8 @@
+<dialog id="flashDialog">
+  <p>Are you sure you want to send a flash?</p>
+  <button id="flashConfirm">Send Flash</button>
+  <button id="flashCancel">Cancel</button>
+</dialog>
 window.addEventListener('block-loaded-list-details1', () => {
 	const buttonGroup = `
           <button type="button" id="flash" class="btn btn-outline-secondary">
@@ -131,17 +136,27 @@ window.addEventListener('block-loaded-list-details1', () => {
 	}
 	
     function flashClick() {
-        const classes = this.classList;
-        if (classes.contains('btn-outline-secondary')) {
-            buttonSwitch(this);
-            flashCall(flashHook);
-            //console.log("");
-        } else if (classes.contains('btn-secondary')) {
-            buttonSwitch(this);
-            flashCall(flashHook);
-            //console.log("");
-        }
-    }
+		const classes = this.classList;
+		if (classes.contains('btn-outline-secondary')) {
+		  const confirmation = window.confirm('Are you sure you want to send a flash?');
+		  if (confirmation) {
+			buttonSwitch(this);
+			flashCall(flashHook);
+			//console.log("");
+		  } else {
+			// The user clicked "Cancel," do nothing
+		  }
+		} else if (classes.contains('btn-secondary')) {
+		  const confirmation = window.confirm('Are you sure you want to send a flash?');
+		  if (confirmation) {
+			buttonSwitch(this);
+			flashCall(flashHook);
+			//console.log("");
+		  } else {
+			// The user clicked "Cancel," do nothing
+		  }
+		}
+	  }
     
     buttonFlash.addEventListener('click', flashClick);
 	
