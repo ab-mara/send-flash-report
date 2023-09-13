@@ -1,5 +1,4 @@
 const https = require("https");
-const http = require("http");
 
 exports.handler = async (event, context) => {
   try {
@@ -37,22 +36,42 @@ exports.handler = async (event, context) => {
       });
 
       response.on("end", () => {
-        console.log(data); // The response data
+        // Capture the API response data
+        const responseData = data;
+
+        // Return the API response data in the proxy function's response
+        return {
+          statusCode: 200,
+          body: JSON.stringify(responseData), // Assuming response data is JSON
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
       });
     });
 
     request.on("error", (error) => {
       console.error(error);
-    });
 
-    return {
-      statusCode: 200,
-      body: "Request sent",
-    };
+      // Handle errors and return an appropriate response
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: error.message }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+    });
   } catch (error) {
+    console.error(error);
+
+    // Handle errors and return an appropriate response
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     };
   }
 };
