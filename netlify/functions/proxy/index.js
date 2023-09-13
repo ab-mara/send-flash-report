@@ -12,11 +12,7 @@ exports.handler = async (event, context) => {
 
     // Configure Axios to trust the certificate (example)
     const axiosInstance = axios.create({
-      httpsAgent: {
-        rejectUnauthorized: false, // Set this to false to bypass SSL verification (not recommended for production)
-        // Alternatively, you can provide a custom certificate authority (CA) bundle:
-        // ca: fs.readFileSync('path/to/custom-ca.crt'),
-      },
+      rejectUnauthorized: false,
     });
 
     const response = await axiosInstance.get(url);
