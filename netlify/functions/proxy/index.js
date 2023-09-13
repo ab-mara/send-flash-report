@@ -1,4 +1,4 @@
-const axios = require("axios");
+const https = require("https");
 
 exports.handler = async (event, context) => {
   try {
@@ -10,27 +10,30 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Configure Axios to disable SSL certificate verification
-    const axiosInstance = axios.create({
-      httpsAgent: false,
-    });
+    https
+      .get(url, (response) => {
+        let data = "";
 
-    const response = await axiosInstance.get(url);
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        response.on("end", () => {
+          console.log(data); // The response data
+        });
+      })
+      .on("error", (error) => {
+        console.error(error);
+      });
 
     return {
-      statusCode: response.status,
-      body: JSON.stringify(response.data),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      statusCode: 200,
+      body: "Request sent",
     };
   } catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     };
   }
 };
