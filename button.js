@@ -5,7 +5,7 @@
 </dialog>
 window.addEventListener('block-loaded-list-details1', () => {
 	const buttonGroup = `
-          <button type="button" id="flash" class="btn btn-outline-secondary">
+          <button type="button" id="buttonFlash" class="btn btn-outline-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lightning-fill" viewBox="0 0 16 16">
             <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z"/>
             </svg>
@@ -18,12 +18,15 @@ window.addEventListener('block-loaded-list-details1', () => {
 	const buttonEditNew = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
   <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
 </svg>`;
+	const buttonFlash = document.getElementById('buttonFlash');
+	const flashDialog = document.getElementById('flashDialog');
+	const flashConfirmBtn = document.getElementById('flashConfirm');
+	const flashCancelBtn = document.getElementById('flashCancel');
 
 	buttonEdit.setAttribute('class', 'btn btn-outline-secondary');
 	buttonEdit.innerHTML = buttonEditNew;
 	actionsWrapper.insertAdjacentHTML('afterbegin', buttonGroup);
 	actionsWrapper.classList.add('btn-group');
-	const buttonFlash = document.getElementById('flash');
 
 	const url = new URL(window.location.href);
 	//const recordID = url.searchParams.get('recordId');
