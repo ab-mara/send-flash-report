@@ -4,7 +4,7 @@ const https = require("https");
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
-console.log("Function started");
+
 exports.handler = async (event, context) => {
   try {
     const url = event.queryStringParameters.url;
@@ -22,9 +22,6 @@ exports.handler = async (event, context) => {
 
     //const response = await axiosInstance.get(url);
     const response = await axios.get(url, { httpsAgent });
-
-    console.log("Request Headers:", response.config.headers);
-    console.log("Response Headers:", response.headers);
 
     return {
       statusCode: response.status,
