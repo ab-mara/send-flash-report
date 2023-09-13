@@ -27,41 +27,44 @@ exports.handler = async (event, context) => {
       },
     };
 
-    // Make the request
-    const request = https.get(url, requestOptions, (response) => {
-      let data = "";
+    // Make the request using await
+    const response = await new Promise((resolve, reject) => {
+      const request = https.get(url, requestOptions, (response) => {
+        let data = "";
 
-      response.on("data", (chunk) => {
-        data += chunk;
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        response.on("end", () => {
+          resolve(response);
+        });
       });
 
-      response.on("end", () => {
-        // Capture the API response data
-        const responseData = data;
-
-        // Return the API response data in the proxy function's response
-        return {
-          statusCode: 200,
-          body: JSON.stringify(responseData), // Assuming response data is JSON
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
+      request.on("error", (error) => {
+        reject(error);
       });
     });
 
-    request.on("error", (error) => {
-      console.error(error);
-
-      // Handle errors and return an appropriate response
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: error.message }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+    // Read the response data
+    let data = "";
+    response.on("data", (chunk) => {
+      data += chunk;
     });
+
+    // Wait for the response to end
+    await new Promise((resolve) => {
+      response.on("end", resolve);
+    });
+
+    // Return the API response data in the proxy function's response
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data), // Assuming response data is JSON
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
   } catch (error) {
     console.error(error);
 
