@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
     // Configure Axios to trust the certificate (example)
     const axiosInstance = axios.create({
-      rejectUnauthorized: false,
+      httpsAgent: false,
     });
 
     const response = await axiosInstance.get(url);
