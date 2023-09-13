@@ -10,11 +10,9 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Configure Axios to trust the certificate (example)
+    // Configure Axios to disable SSL certificate verification
     const axiosInstance = axios.create({
-      httpsAgent: {
-        rejectUnauthorized: false, // Set this to false to bypass SSL verification (not recommended for production)
-      },
+      httpsAgent: false,
     });
 
     const response = await axiosInstance.get(url);
