@@ -23,6 +23,9 @@ exports.handler = async (event, context) => {
     //const response = await axiosInstance.get(url);
     const response = await axios.get(url, { httpsAgent });
 
+    console.log("Request Headers:", response.config.headers);
+    console.log("Response Headers:", response.headers);
+
     return {
       statusCode: response.status,
       body: JSON.stringify(response.data),
