@@ -25,6 +25,7 @@ exports.handler = async (event, context) => {
 
     console.log("Request Headers:", response.config.headers);
     console.log("Response Headers:", response.headers);
+    console.log("v_V_V_V_v");
 
     return {
       statusCode: response.status,
