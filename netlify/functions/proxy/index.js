@@ -15,7 +15,11 @@ exports.handler = async (event, context) => {
       httpsAgent: false,
     });
 
-    const response = await axiosInstance.get(url);
+    const response = await axiosInstance.get(url, {
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    });
 
     return {
       statusCode: response.status,
