@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const axios = require("axios");
 
 exports.handler = async (event, context) => {
   try {
@@ -10,11 +10,20 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const response = await fetch(url);
+    // Configure Axios to trust the certificate (example)
+    const axiosInstance = axios.create({
+      httpsAgent: {
+        rejectUnauthorized: false, // Set this to false to bypass SSL verification (not recommended for production)
+        // Alternatively, you can provide a custom certificate authority (CA) bundle:
+        // ca: fs.readFileSync('path/to/custom-ca.crt'),
+      },
+    });
+
+    const response = await axiosInstance.get(url);
 
     return {
       statusCode: response.status,
-      body: JSON.stringify(await response.text()),
+      body: JSON.stringify(response.data),
       headers: {
         "Content-Type": "application/json",
       },
