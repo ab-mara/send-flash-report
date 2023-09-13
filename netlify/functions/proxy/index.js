@@ -4,7 +4,7 @@ const https = require("https");
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
-
+console.log("Function started");
 exports.handler = async (event, context) => {
   try {
     const url = event.queryStringParameters.url;
@@ -25,7 +25,6 @@ exports.handler = async (event, context) => {
 
     console.log("Request Headers:", response.config.headers);
     console.log("Response Headers:", response.headers);
-    console.log("v_V_V_V_v");
 
     return {
       statusCode: response.status,
