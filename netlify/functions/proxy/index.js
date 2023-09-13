@@ -1,4 +1,5 @@
 const https = require("https");
+const http = require("http");
 
 exports.handler = async (event, context) => {
   try {
@@ -10,21 +11,39 @@ exports.handler = async (event, context) => {
       };
     }
 
-    https
-      .get(url, (response) => {
-        let data = "";
+    // Define custom agent options to relax SSL certificate verification
+    const agentOptions = {
+      rejectUnauthorized: false, // Set to false to accept self-signed or expired certificates
+    };
 
-        response.on("data", (chunk) => {
-          data += chunk;
-        });
+    // Use the custom agent options when making the request
+    const agent = new https.Agent(agentOptions);
 
-        response.on("end", () => {
-          console.log(data); // The response data
-        });
-      })
-      .on("error", (error) => {
-        console.error(error);
+    // Construct the request options
+    const requestOptions = {
+      agent, // Use the custom agent
+      method: "GET",
+      headers: {
+        // Add any necessary headers here
+      },
+    };
+
+    // Make the request
+    const request = https.get(url, requestOptions, (response) => {
+      let data = "";
+
+      response.on("data", (chunk) => {
+        data += chunk;
       });
+
+      response.on("end", () => {
+        console.log(data); // The response data
+      });
+    });
+
+    request.on("error", (error) => {
+      console.error(error);
+    });
 
     return {
       statusCode: 200,
