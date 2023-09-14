@@ -29,6 +29,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(jsonFeed),
     };
   } catch (error) {
+    console.error("Error:", error); // Log the error for debugging
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Failed to fetch or parse RSS feed" }),
