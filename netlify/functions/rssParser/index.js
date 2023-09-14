@@ -1,7 +1,4 @@
-const Parser = require("rss-parser");
-const parser = new Parser();
-
-console.log("Loading function");
+const xml2js = require("xml2js");
 
 exports.handler = async (event, context) => {
   try {
@@ -15,12 +12,20 @@ exports.handler = async (event, context) => {
       };
     }
 
-    const feed = await parser.parseURL(feedUrl);
+    // Fetch the RSS feed XML
+    const response = await fetch(feedUrl);
+    const xml = await response.text();
+
+    // Parse the XML to JSON
+    const parser = new xml2js.Parser();
+    const result = await parser.parseStringPromise(xml);
+
+    // Convert the parsed data to the desired JSON format
     const jsonFeed = {
-      items: feed.items.map((item) => ({
-        title: item.title,
-        link: item.link,
-        pubDate: item.pubDate,
+      items: result.rss.channel[0].item.map((item) => ({
+        title: item.title[0],
+        link: item.link[0],
+        pubDate: item.pubDate[0],
       })),
     };
 
@@ -29,7 +34,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify(jsonFeed),
     };
   } catch (error) {
-    console.error("Error:", error); // Log the error for debugging
+    console.error("Error:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Failed to fetch or parse RSS feed" }),
