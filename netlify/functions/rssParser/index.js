@@ -1,6 +1,8 @@
 const Parser = require("rss-parser");
 const parser = new Parser();
 
+console.log("Loading function");
+
 exports.handler = async (event, context) => {
   try {
     const { queryStringParameters } = event;
