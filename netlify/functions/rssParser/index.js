@@ -1,5 +1,7 @@
 const xml2js = require("xml2js");
 
+console.log("Loading function");
+
 exports.handler = async (event, context) => {
   try {
     const { queryStringParameters } = event;
