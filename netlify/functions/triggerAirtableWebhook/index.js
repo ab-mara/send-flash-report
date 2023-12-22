@@ -27,7 +27,9 @@ exports.handler = async (event) => {
           "Access-Control-Allow-Headers": "Content-Type",
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS", // Add the allowed HTTP methods used by your Softr app
         },
-        body: JSON.stringify({ message: "Webhook triggered successfully." }),
+        body: JSON.stringify({
+          message: "Flash Report triggered successfully.",
+        }),
       };
     } else {
       return {
